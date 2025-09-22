@@ -3,11 +3,13 @@ title: "为 Astro Cactus 添加 Webmentions"
 description: "本文介绍了在你的网站上添加 webmentions 的过程"
 publishDate: "11 Oct 2023"
 tags: ["webmentions", "astro", "社交"]
-updatedDate: 6 December 2024
+updatedDate: "2025-09-22"
 pinned: true
 ---
 
 ## 简要指南
+
+这是一个测试修改，看看自动更新是否工作。
 
 1. 按照 [IndieLogin's](https://indielogin.com/setup) 说明，在你的主页上添加到 GitHub 资料和/或电子邮件地址的链接。你可以通过 `src/components/SocialList.astro` 来实现，只需确保在相关链接中包含 `isWebmention` 属性。
 2. 在 [Webmention.io](https://webmention.io/) 输入你的网站地址来创建账户。
