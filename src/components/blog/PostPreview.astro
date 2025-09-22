@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "@/components/FormattedDate.astro";
@@ -9,16 +10,83 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 };
 
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
+
+// 默认封面图片
+const defaultCover = "/social-card.png";
+const coverImage = post.data.coverImage?.src || defaultCover;
+const coverAlt = post.data.coverImage?.alt || `${post.data.title} 封面图片`;
 ---
 
-<FormattedDate
-  class="min-w-30 font-semibold text-gray-600 dark:text-gray-400"
-  date={post.data.publishDate}
-/>
-<Tag>
-  {post.data.draft && <span class="text-red-500">(Draft) </span>}
-  <a class="cactus-link" href={`/posts/${post.id}/`}>
-    {post.data.title}
-  </a>
-</Tag>
-{withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}
+<article class="group relative overflow-hidden transition-all duration-200 bg-gray-100 hover:shadow-md dark:bg-gray-800/60 dark:hover:shadow-lg rounded-lg p-3">
+  <div class="grid gap-4 sm:grid-cols-[150px_1fr] sm:gap-6">
+    <!-- 封面图片 -->
+    <div class="aspect-video overflow-hidden rounded-md sm:aspect-[4/3]">
+      {
+        post.data.coverImage ? (
+          <Image
+            alt={coverAlt}
+            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            height={150}
+            src={coverImage}
+            width={150}
+          />
+        ) : (
+          <div class="h-full w-full bg-white dark:bg-gray-900 flex items-center justify-center">
+            <div class="text-center text-gray-400 dark:text-gray-500">
+              <svg
+                class="mx-auto h-8 w-8 mb-2 opacity-60"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                ></path>
+              </svg>
+              <p class="text-xs opacity-80">文章</p>
+            </div>
+          </div>
+        )
+      }
+    </div>
+
+    <!-- 文章信息 -->
+    <div class="relative flex flex-col justify-center min-h-[120px]">
+      <!-- 草稿标记 - 右上角 -->
+      {post.data.draft && (
+        <div class="absolute -top-2 -right-2 z-10">
+          <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-red-700 bg-red-50 border border-red-200 rounded-full dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/30">
+            草稿
+          </span>
+        </div>
+      )}
+
+      <!-- 标题 - 居中显示 -->
+      <div class="flex-1 flex items-center">
+        <Tag class="w-full">
+          <a class="cactus-link text-lg font-medium hover:text-accent block text-center transition-colors duration-200" href={`/posts/${post.id}/`}>
+            {post.data.title}
+          </a>
+        </Tag>
+      </div>
+
+      <!-- 描述 - 如果有的话 -->
+      {withDesc && (
+        <div class="mt-3 text-center">
+          <p class="line-clamp-3 text-sm text-gray-600 dark:text-gray-300">{post.data.description}</p>
+        </div>
+      )}
+
+      <!-- 时间 - 右下角 -->
+      <div class="absolute -bottom-2 -right-2">
+        <FormattedDate
+          class="text-xs text-gray-500 dark:text-gray-400"
+          date={post.data.publishDate}
+        />
+      </div>
+    </div>
+  </div>
+</article>

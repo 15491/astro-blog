@@ -68,9 +68,9 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
         pinnedPosts.length > 0 && (
           <section class="mb-16">
             <h2 class="title mb-6 text-xl">置顶文章</h2>
-            <ul class="space-y-4" role="list">
+            <ul class="space-y-6" role="list">
               {pinnedPosts.map((p) => (
-                <li class="grid gap-1 sm:grid-cols-[auto_1fr]">
+                <li>
                   <PostPreview post={p} />
                 </li>
               ))}
@@ -85,9 +85,9 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               <span class="sr-only">文章年份</span>
               {yearKey}
             </h2>
-            <ul class="mt-5 space-y-4 text-start">
+            <ul class="mt-5 space-y-6 text-start">
               {groupedByYear[yearKey]?.map((p) => (
-                <li class="grid gap-1 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+                <li>
                   <PostPreview post={p} />
                 </li>
               ))}
