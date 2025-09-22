@@ -62,7 +62,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       <Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
     </a>
   </div>
-  <div class="grid sm:grid-cols-[3fr_1fr] sm:gap-x-8 sm:gap-y-16">
+  <div class="grid sm:grid-cols-[5fr_1fr] sm:gap-x-8 sm:gap-y-16">
     <div>
       {
         pinnedPosts.length > 0 && (
@@ -119,10 +119,13 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               <path d="M6 9h-.01" />
             </svg>
           </h2>
-          <ul class="flex flex-wrap gap-2">
+          <ul class="flex flex-col gap-2">
             {uniqueTags.map((tag) => (
-              <li>
-                <a class="cactus-link flex items-center justify-center" href={`/tags/${tag}/`}>
+              <li class="w-fit">
+                <a
+                  class="cactus-link inline-flex items-center justify-center px-1 py-0.5 text-xs"
+                  href={`/tags/${tag}/`}
+                >
                   <span aria-hidden="true">#</span>
                   <span class="sr-only">查看所有带有此标签的文章</span>
                   {tag}
