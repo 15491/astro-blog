@@ -1,6 +1,6 @@
 ---
-title: "This post doesn't have any content"
-description: "This post is purely for testing the table of content, which should not be rendered"
+title: "这篇文章没有任何内容"
+description: "这篇文章纯粹用于测试目录，它不应该被渲染"
 publishDate: "22 Feb 2023"
-tags: ["test", "toc"]
+tags: ["测试", "目录"]
 ---

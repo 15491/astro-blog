@@ -1,9 +1,9 @@
 ---
-title: "A working draft title"
-description: "This post is for testing the draft post functionality"
+title: "一个草稿标题"
+description: "这篇文章用于测试草稿文章功能"
 publishDate: "10 March 2024"
-tags: ["test"]
+tags: ["测试"]
 draft: true
 ---
 
-If this is working correctly, this post should only be accessible in a dev environment, as well as any tags that are unique to this post.
+如果这正常工作，这篇文章应该只能在开发环境中访问，以及任何这篇文章独有的标签。
