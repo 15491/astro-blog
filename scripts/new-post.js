@@ -35,8 +35,9 @@ description: ""
 publishDate: "${publishDate}"
 updatedDate:
 tags: []
-draft: false
+draft:
 pinned: false
+ogImage:
 coverImage:
   src: ""
   alt: ""
