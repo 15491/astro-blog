@@ -59,6 +59,35 @@ tags: ["标签1", "标签2"]
 - `src/content.config.ts` - 内容类型配置
 - `astro.config.ts` - Astro 框架配置
 
+## 🛠️ 可用脚本
+
+### 基础命令
+- `pnpm run dev` / `pnpm start` - 启动开发服务器
+- `pnpm run build` - 构建生产版本
+- `pnpm run preview` - 预览构建结果
+- `pnpm run check` - 类型检查
+
+### 代码质量
+- `pnpm run lint` - 代码检查 (使用 Biome)
+- `pnpm run format` - 格式化代码和优化导入
+
+### 内容管理
+- `pnpm run new:post <文件名>` - 快速创建新的博客文章模板
+- `pnpm run new:note <文件名>` - 快速创建新的笔记模板
+- `pnpm run update-dates` - 自动更新已修改文章的 `updatedDate` 字段
+
+### 使用示例
+```bash
+# 创建新文章
+pnpm run new:post "我的第一篇文章"
+
+# 创建新笔记
+pnpm run new:note "学习笔记"
+
+# 更新修改文章的时间戳
+pnpm run update-dates
+```
+
 ## 📚 原项目
 
 本项目基于 [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) 主题，感谢原作者 [Chris Williams](https://github.com/chrismwilliams) 的出色工作。
