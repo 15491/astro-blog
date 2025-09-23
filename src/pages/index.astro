@@ -2,7 +2,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
-import SocialList from "@/components/SocialList.astro";
+// import SocialList from "@/components/SocialList.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
@@ -25,18 +25,14 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
 <PageLayout meta={{ title: "首页" }}>
-  <section>
-    <h1 class="title mb-12">你好，世界！</h1>
-    <p class="mb-4">
-      你好，我是一个 Astro 博客主题，一个简单的起点，你可以用它来创建你的网站或博客。
-      如果你想了解更多关于如何自定义我，添加更多文章，并让它成为你自己的， 点击下面的 GitHub
-      图标链接，它将带你到我的仓库。
-    </p>
+  <!-- <section>
+    <p class="mb-4">我是蕉太狼 🐺</p>
     <SocialList />
-  </section>
+  </section> -->
   {
     pinnedPosts.length > 0 && (
-      <section class="mt-16">
+      // class="mt-16"
+      <section>
         <h2 class="title mb-6 text-xl">置顶文章</h2>
         <ul class="space-y-6" role="list">
           {pinnedPosts.map((p) => (

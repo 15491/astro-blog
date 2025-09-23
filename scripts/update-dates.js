@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
 
 /**
  * 自动更新修改过的 markdown 文件的 updatedDate
@@ -10,43 +10,39 @@ import path from 'path';
 function updateModifiedDates() {
   try {
     // 获取暂存区中的 markdown 文件
-    const stagedFiles = execSync('git diff --cached --name-only --diff-filter=M', { encoding: 'utf8' })
+    const stagedFiles = execSync("git diff --cached --name-only --diff-filter=M", {
+      encoding: "utf8",
+    })
       .trim()
-      .split('\n')
-      .filter(file => file.match(/\.md$/) && file.startsWith('src/content/'))
+      .split("\n")
+      .filter((file) => file.match(/\.md$/) && file.startsWith("src/content/"))
       .filter(Boolean);
 
     if (stagedFiles.length === 0) {
-      console.log('没有修改的 markdown 文件需要更新');
+      console.log("没有修改的 markdown 文件需要更新");
       return;
     }
 
-    const now = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 格式
+    const now = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 格式
     let updatedCount = 0;
 
-    stagedFiles.forEach(filePath => {
+    stagedFiles.forEach((filePath) => {
       try {
         const fullPath = path.resolve(filePath);
-        let content = fs.readFileSync(fullPath, 'utf8');
+        let content = fs.readFileSync(fullPath, "utf8");
 
         // 检查是否已有 updatedDate
         const hasUpdatedDate = /^updatedDate:\s*.+$/m.test(content);
 
         if (hasUpdatedDate) {
           // 更新现有的 updatedDate
-          content = content.replace(
-            /^updatedDate:\s*.+$/m,
-            `updatedDate: "${now}"`
-          );
+          content = content.replace(/^updatedDate:\s*.+$/m, `updatedDate: "${now}"`);
         } else {
           // 在 publishDate 后添加 updatedDate
-          content = content.replace(
-            /^(publishDate:\s*.+)$/m,
-            `$1\nupdatedDate: "${now}"`
-          );
+          content = content.replace(/^(publishDate:\s*.+)$/m, `$1\nupdatedDate: "${now}"`);
         }
 
-        fs.writeFileSync(fullPath, content, 'utf8');
+        fs.writeFileSync(fullPath, content, "utf8");
 
         // 重新添加到暂存区
         execSync(`git add "${filePath}"`);
@@ -62,7 +58,7 @@ function updateModifiedDates() {
       console.log(`\n🎉 成功更新了 ${updatedCount} 个文件的 updatedDate`);
     }
   } catch (err) {
-    console.error('❌ 执行失败:', err.message);
+    console.error("❌ 执行失败:", err.message);
     process.exit(1);
   }
 }

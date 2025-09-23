@@ -1,8 +1,9 @@
 ---
+import SocialList from "@/components/SocialList.astro";
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-  description: "我是一个 Astro.build 的起始主题",
+  description: "蕉太狼的博客",
   title: "关于",
 };
 ---
@@ -10,11 +11,11 @@ const meta = {
 <PageLayout meta={meta}>
   <h1 class="title mb-12">关于</h1>
   <div class="prose prose-sm prose-cactus max-w-none">
-    <p>
-      你好，我是一个 Astro 起始主题。我特别适合帮助你开始搭建你自己的博客网站。
-    </p>
-    <p>以下是我的一些内置的强大功能：</p>
-    <ul class="list-inside list-disc" role="list">
+    <p>我是蕉太狼，这是我的博客。</p>
+    <p>我是一个新手开发，下来我会在这里记录的我的学习。</p>
+    <p>我会学习web相关的东西。</p>
+    <p>这些需要很久。</p>
+    <!-- <ul class="list-inside list-disc" role="list">
       <li>我非常快，因为我是一个静态网站</li>
       <li>我完全支持响应式设计</li>
       <li>我带有亮色和暗色主题</li>
@@ -22,14 +23,7 @@ const meta = {
       <li>我使用 Tailwind CSS 样式</li>
       <li>Shiki 代码语法高亮</li>
       <li>Satori 自动生成博客文章的 OG 图片</li>
-    </ul>
-    <p>
-      如果你喜欢我，欢迎克隆或 fork 我的 <a
-        class="cactus-link inline-block"
-        href="https://github.com/chrismwilliams/astro-cactus"
-        rel="noreferrer"
-        target="_blank">仓库</a
-      >！
-    </p>
+    </ul> -->
+    <SocialList />
   </div>
 </PageLayout>

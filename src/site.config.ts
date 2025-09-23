@@ -3,7 +3,7 @@ import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
   // Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
-  author: "我的博客",
+  author: "蕉太狼的博客",
   // Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
   date: {
     locale: "zh-CN",
@@ -19,13 +19,13 @@ export const siteConfig: SiteConfig = {
   lang: "zh-CN",
   // Meta property, found in src/components/BaseHead.astro L:42
   ogLocale: "zh_CN",
-  /* 
-		- Used to construct the meta title property found in src/components/BaseHead.astro L:11 
+  /*
+		- Used to construct the meta title property found in src/components/BaseHead.astro L:11
 		- The webmanifest name found in astro.config.ts L:42
 		- The link value found in src/components/layout/Header.astro L:35
 		- In the footer found in src/components/layout/Footer.astro L:12
 	*/
-  title: "我的博客",
+  title: "蕉太狼的博客",
   // ! Please remember to replace the following site property with your own domain, used in astro.config.ts
   url: "https://astro-cactus.chriswilliams.dev/",
 };

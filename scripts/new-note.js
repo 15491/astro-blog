@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,14 +11,14 @@ const __dirname = path.dirname(__filename);
 const fileName = process.argv[2];
 
 if (!fileName) {
-  console.error('错误：请提供文件名');
-  console.log('用法: npm run new:note <文件名>');
-  console.log('示例: npm run new:note my-note');
+  console.error("错误：请提供文件名");
+  console.log("用法: npm run new:note <文件名>");
+  console.log("示例: npm run new:note my-note");
   process.exit(1);
 }
 
 // 确保文件名以 .md 结尾
-const fullFileName = fileName.endsWith('.md') ? fileName : `${fileName}.md`;
+const fullFileName = fileName.endsWith(".md") ? fileName : `${fileName}.md`;
 
 // 生成当前时间的 ISO 字符串
 const now = new Date().toISOString();
@@ -33,7 +33,7 @@ publishDate: "${now}"
 `;
 
 // 目标路径
-const targetPath = path.join(__dirname, '..', 'src', 'content', 'note', fullFileName);
+const targetPath = path.join(__dirname, "..", "src", "content", "note", fullFileName);
 
 // 检查文件是否已存在
 if (fs.existsSync(targetPath)) {
@@ -47,6 +47,6 @@ try {
   console.log(`✅ 成功创建 note 文件: ${fullFileName}`);
   console.log(`📍 位置: ${targetPath}`);
 } catch (error) {
-  console.error('创建文件时出错:', error.message);
+  console.error("创建文件时出错:", error.message);
   process.exit(1);
 }
