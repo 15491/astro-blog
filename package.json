@@ -14,7 +14,9 @@
     "format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
     "format:imports": "biome check --formatter-enabled=false --write",
     "check": "astro check",
-    "update-dates": "node scripts/update-dates.js"
+    "update-dates": "node scripts/update-dates.js",
+    "new:note": "node scripts/new-note.js",
+    "new:post": "node scripts/new-post.js"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.3.6",

@@ -82,8 +82,23 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
   const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
   const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
 
+  // 记录页面加载时的历史记录长度和当前URL
+  let initialHistoryLength = history.length;
+  let initialPath = window.location.pathname;
+
   backBtn.addEventListener("click", () => {
-    history.back();
+    // 检查当前路径是否与初始路径相同（即只是锚点变化）
+    const currentPath = window.location.pathname;
+
+    if (currentPath === initialPath && history.length > initialHistoryLength) {
+      // 如果在同一页面且历史记录增加了，说明有锚点跳转
+      // 跳过锚点历史记录，直接返回到真正的上一页
+      const stepsBack = history.length - initialHistoryLength + 1;
+      history.go(-stepsBack);
+    } else {
+      // 正常返回
+      history.back();
+    }
   });
 
   function callback(entries: IntersectionObserverEntry[]) {
