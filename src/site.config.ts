@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
 	*/
   title: "蕉太狼的博客",
   // ! Please remember to replace the following site property with your own domain, used in astro.config.ts
-  url: "www.10292001.xyz",
+  url: "https://www.10292001.xyz",
 };
 
 // Used to generate links in both the Header & Footer.

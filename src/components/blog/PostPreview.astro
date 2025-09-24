@@ -24,7 +24,7 @@ const coverAlt = post.data.coverImage?.alt || `${post.data.title} 封面图片`;
     <!-- 封面图片 -->
     <div class="aspect-video overflow-hidden rounded-md sm:aspect-[4/3]">
       {
-        post.data.coverImage ? (
+        post.data.coverImage?.src ? (
           <Image
             alt={coverAlt}
             class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
