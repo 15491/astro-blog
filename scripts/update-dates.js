@@ -3,6 +3,7 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import pc from "picocolors";
 
 /**
  * 自动更新修改过的 markdown 文件的 updatedDate
@@ -19,7 +20,7 @@ function updateModifiedDates() {
       .filter(Boolean);
 
     if (stagedFiles.length === 0) {
-      console.log("没有修改的 markdown 文件需要更新");
+      console.log(pc.blue("ℹ️  没有修改的 markdown 文件需要更新"));
       return;
     }
 
@@ -48,17 +49,17 @@ function updateModifiedDates() {
         execSync(`git add "${filePath}"`);
 
         updatedCount++;
-        console.log(`✅ 已更新: ${filePath}`);
+        console.log(pc.green("✅ 已更新:"), pc.cyan(filePath));
       } catch (err) {
-        console.error(`❌ 更新失败: ${filePath}`, err.message);
+        console.error(pc.red("❌ 更新失败:"), pc.yellow(filePath), pc.gray(err.message));
       }
     });
 
     if (updatedCount > 0) {
-      console.log(`\n🎉 成功更新了 ${updatedCount} 个文件的 updatedDate`);
+      console.log(pc.green("\n🎉 成功更新了"), pc.yellow(`${updatedCount}`), pc.green("个文件的"), pc.cyan("updatedDate"));
     }
   } catch (err) {
-    console.error("❌ 执行失败:", err.message);
+    console.error(pc.red("❌ 执行失败:"), pc.gray(err.message));
     process.exit(1);
   }
 }
