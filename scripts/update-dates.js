@@ -9,6 +9,8 @@ import pc from "picocolors";
  * 自动更新修改过的 markdown 文件的 updatedDate
  */
 function updateModifiedDates() {
+  console.log(pc.blue("🔄 检查并更新 markdown 文件的 updatedDate..."));
+
   try {
     // 获取暂存区中的 markdown 文件
     const stagedFiles = execSync("git diff --cached --name-only --diff-filter=M", {
@@ -56,7 +58,12 @@ function updateModifiedDates() {
     });
 
     if (updatedCount > 0) {
-      console.log(pc.green("\n🎉 成功更新了"), pc.yellow(`${updatedCount}`), pc.green("个文件的"), pc.cyan("updatedDate"));
+      console.log(
+        pc.green("\n🎉 成功更新了"),
+        pc.yellow(`${updatedCount}`),
+        pc.green("个文件的"),
+        pc.cyan("updatedDate"),
+      );
     }
   } catch (err) {
     console.error(pc.red("❌ 执行失败:"), pc.gray(err.message));
