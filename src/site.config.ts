@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
       day: "numeric",
       month: "short",
       year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     },
   },
   // Used as the default description meta property and webmanifest description

@@ -23,13 +23,9 @@ if (!fileName) {
 // 确保文件名以 .md 结尾
 const fullFileName = fileName.endsWith(".md") ? fileName : `${fileName}.md`;
 
-// 生成当前时间，格式化为易读的日期格式
+// 生成当前时间，使用 ISO 格式
 const now = new Date();
-const publishDate = now.toLocaleDateString("en-GB", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
+const publishDate = now.toISOString();
 
 // Post 模板内容
 const postTemplate = `---

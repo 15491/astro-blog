@@ -23,7 +23,7 @@ function updateModifiedDates() {
       return;
     }
 
-    const now = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 格式
+    const now = new Date().toISOString(); // 完整的 ISO 时间格式
     let updatedCount = 0;
 
     stagedFiles.forEach((filePath) => {

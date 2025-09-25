@@ -1,8 +1,8 @@
 ---
 title: "Markdown 警告框"
 description: "这篇文章展示了在 Astro Cactus 中使用 markdown 警告框功能"
-publishDate: "25 Aug 2024"
-updatedDate: "4 July 2025"
+publishDate: "2024-08-25T10:00:00.000Z"
+updatedDate: "2025-09-25T07:02:01.268Z"
 tags: ["markdown", "警告框"]
 draft: true
 ---

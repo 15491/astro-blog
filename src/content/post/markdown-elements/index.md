@@ -1,8 +1,8 @@
 ---
 title: "Markdown 元素合集"
 description: "这篇文章用于测试和列出各种不同的 markdown 元素"
-publishDate: "22 Feb 2023"
-updatedDate: 22 Jan 2024
+publishDate: "2023-02-22T09:00:00.000Z"
+updatedDate: "2025-09-25T07:02:01.268Z"
 tags: ["测试", "markdown"]
 pinned: false
 draft: true
