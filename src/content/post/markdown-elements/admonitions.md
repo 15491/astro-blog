@@ -2,7 +2,7 @@
 title: "Markdown 警告框"
 description: "这篇文章展示了在 Astro Cactus 中使用 markdown 警告框功能"
 publishDate: "2024-08-25T10:00:00.000Z"
-updatedDate: "2025-09-25T07:02:01.268Z"
+updatedDate: "2025-09-30T06:29:36.014Z"
 tags: ["markdown", "警告框"]
 draft: true
 ---
@@ -116,6 +116,7 @@ draft: true
 :::
 
 ## GitHub 仓库卡片
+
 你可以添加链接到 GitHub 仓库的动态卡片，在页面加载时，仓库信息从 GitHub API 中提取。
 
 ::github{repo="chrismwilliams/astro-theme-cactus"}
