@@ -1,8 +1,28 @@
-*.min.js
-node_modules
+# Biome 处理的文件类型，Prettier 不处理
+*.js
+*.ts
+*.jsx
+*.tsx
+*.astro
+*.json
+*.html
+*.css
+*.scss
 
-# cache-dirs
+# 最小化文件
+*.min.js
+
+# 依赖和构建产物
+node_modules
+dist
+build
+.astro
+.vercel
+.netlify
+
+# 缓存目录
 **/.cache
 
+# 锁文件
 pnpm-lock.yaml
-dist
+package-lock.json

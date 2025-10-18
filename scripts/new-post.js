@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import pc from "picocolors";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,9 +14,19 @@ const subDir = process.argv[3];
 
 if (!fileName) {
   console.error(pc.red("❌ 错误：请提供文件名"));
-  console.log(pc.cyan("用法:"), pc.white("npm run new:post"), pc.yellow("<文件名>"), pc.gray("[子目录]"));
+  console.log(
+    pc.cyan("用法:"),
+    pc.white("npm run new:post"),
+    pc.yellow("<文件名>"),
+    pc.gray("[子目录]"),
+  );
   console.log(pc.cyan("示例:"), pc.white("npm run new:post"), pc.yellow("my-article"));
-  console.log(pc.cyan("示例:"), pc.white("npm run new:post"), pc.yellow("my-article"), pc.blue("network"));
+  console.log(
+    pc.cyan("示例:"),
+    pc.white("npm run new:post"),
+    pc.yellow("my-article"),
+    pc.blue("network"),
+  );
   process.exit(1);
 }
 

@@ -10,9 +10,9 @@
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",
     "lint": "biome lint .",
-    "format": "pnpm run format:code && pnpm run format:imports",
-    "format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
-    "format:imports": "biome check --formatter-enabled=false --write",
+    "format": "pnpm run format:code && pnpm run format:md",
+    "format:code": "biome check --write",
+    "format:md": "prettier -w \"**/*.{md,mdx}\" --cache",
     "check": "astro check",
     "update-dates": "node scripts/update-dates.js",
     "new:note": "node scripts/new-note.js",
@@ -68,11 +68,6 @@
     "overrides": {
       "sharp": "^0.34.2"
     },
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@tailwindcss/oxide",
-      "esbuild",
-      "sharp"
-    ]
+    "onlyBuiltDependencies": ["@biomejs/biome", "@tailwindcss/oxide", "esbuild", "sharp"]
   }
 }
