@@ -78,50 +78,77 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 </BaseLayout>
 
 <script>
-  const backBtn = document.getElementById("back-btn") as HTMLButtonElement;
-  const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
-  const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+  function initializePage() {
+    const backBtn = document.getElementById("back-btn") as HTMLButtonElement;
+    const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
+    const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
 
-  // 记录页面加载时的历史记录长度和当前URL
-  let initialHistoryLength = history.length;
-  let initialPath = window.location.pathname;
+    if (!backBtn || !scrollBtn || !targetHeader) return;
 
-  function handleBackClick() {
-    console.log(123);
+    // 记录页面加载时的信息
+    const initialHistoryLength = history.length;
+    const initialPath = window.location.pathname;
+    const entryUrl = document.referrer;
 
-    // 检查当前路径是否与初始路径相同（即只是锚点变化）
-    const currentPath = window.location.pathname;
+    function handleBackClick() {
+      const currentPath = window.location.pathname;
+      const currentHistoryLength = history.length;
 
-    if (currentPath === initialPath && history.length > initialHistoryLength) {
-      // 如果在同一页面且历史记录增加了，说明有锚点跳转
-      // 跳过锚点历史记录，直接返回到真正的上一页
-      const stepsBack = history.length - initialHistoryLength + 1;
-      history.go(-stepsBack);
-    } else {
-      // 正常返回
-      history.back();
+      // 情况1：如果是直接访问的页面（没有 referrer 或 history.length <= 1）
+      if (!entryUrl || initialHistoryLength <= 1) {
+        // 尝试返回到文章列表页
+        window.location.href = "/posts";
+        return;
+      }
+
+      // 情况2：在同一页面内进行了锚点跳转
+      if (currentPath === initialPath && currentHistoryLength > initialHistoryLength) {
+        // 计算需要后退的步数（跳过所有锚点历史记录）
+        const anchorSteps = currentHistoryLength - initialHistoryLength;
+        // 后退到进入本页面之前的页面
+        history.go(-(anchorSteps + 1));
+        return;
+      }
+
+      // 情况3：正常后退
+      // 检查是否还有历史记录可以后退
+      if (history.length > 1) {
+        history.back();
+      } else {
+        // 如果没有历史记录，返回到文章列表页
+        window.location.href = "/posts";
+      }
     }
+
+    function handleScrollClick() {
+      document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+    }
+
+    function callback(entries: IntersectionObserverEntry[]) {
+      entries.forEach((entry) => {
+        // only show the scroll to top button when the heading is out of view
+        scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+      });
+    }
+
+    // 移除可能存在的旧监听器（使用克隆替换来移除所有监听器）
+    const newBackBtn = backBtn.cloneNode(true) as HTMLButtonElement;
+    backBtn.parentNode?.replaceChild(newBackBtn, backBtn);
+
+    const newScrollBtn = scrollBtn.cloneNode(true) as HTMLButtonElement;
+    scrollBtn.parentNode?.replaceChild(newScrollBtn, scrollBtn);
+
+    // 添加新监听器
+    newBackBtn.addEventListener("click", handleBackClick);
+    newScrollBtn.addEventListener("click", handleScrollClick);
+
+    const observer = new IntersectionObserver(callback);
+    observer.observe(targetHeader);
   }
 
-  function handleScrollClick() {
-    document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
-  }
+  // 初始化页面
+  initializePage();
 
-  function callback(entries: IntersectionObserverEntry[]) {
-    entries.forEach((entry) => {
-      // only show the scroll to top button when the heading is out of view
-      scrollBtn.dataset.show = (!entry.isIntersecting).toString();
-    });
-  }
-
-  // 移除可能存在的旧监听器
-  backBtn.removeEventListener("click", handleBackClick);
-  scrollBtn.removeEventListener("click", handleScrollClick);
-
-  // 添加新监听器
-  backBtn.addEventListener("click", handleBackClick);
-  scrollBtn.addEventListener("click", handleScrollClick);
-
-  const observer = new IntersectionObserver(callback);
-  observer.observe(targetHeader);
+  // 监听 Astro 页面加载事件（如果使用了 View Transitions）
+  document.addEventListener("astro:page-load", initializePage);
 </script>

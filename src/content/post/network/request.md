@@ -12,4 +12,22 @@ coverImage:
   alt: ""
 ---
 
-## 请求的方式
+# 请求的方式
+
+## xhr
+
+[`XMLHttpRequest`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest)（XHR）是一种创建 [HTTP](https://developer.mozilla.org/zh-CN/docs/Glossary/HTTP) 请求的 [JavaScript](https://developer.mozilla.org/zh-CN/docs/Glossary/JavaScript) [API](https://developer.mozilla.org/zh-CN/docs/Glossary/API)。它的方法提供了在[浏览器](https://developer.mozilla.org/zh-CN/docs/Glossary/Browser)和[服务器](https://developer.mozilla.org/zh-CN/docs/Glossary/Server)之间发送请求的能力
+
+这里我们简单的使用一下他的常见的方法
+
+### 请求
+
+
+
+## featch
+
+## sse
+
+## sendBeacon
+
+## socket
