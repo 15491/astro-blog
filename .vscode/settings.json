@@ -6,7 +6,7 @@
   "[json][jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
+  "[astro]": { "editor.defaultFormatter": "biomejs.biome" },
   "[markdown]": { "editor.wordWrap": "on" },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {

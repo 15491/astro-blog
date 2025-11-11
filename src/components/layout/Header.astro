@@ -9,28 +9,24 @@ import { siteConfig } from "../../site.config";
   <div class="flex sm:flex-col">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
-      class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
+      class="group inline-flex items-center sm:relative sm:inline-block"
       href="/"
     >
       <svg
         aria-hidden="true"
-        class="me-3 h-10 w-6 sm:absolute sm:-start-18 sm:me-0 sm:h-20 sm:w-12"
+        class="me-3 h-6 w-6 transition-colors sm:absolute sm:-start-18 sm:me-0 sm:h-20 sm:w-12 group-hover:stroke-yellow-400"
         fill="none"
         focusable="false"
-        viewBox="0 0 272 480"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       >
         <title>Logo</title>
-        <path
-          fill="#cdffb8"
-          d="M181.334 93.333v-40L226.667 80v40zM136.001 53.333 90.667 26.667v426.666L136.001 480zM45.333 220 0 193.334v140L45.333 360z"
-        ></path><path
-          fill="#d482ab"
-          d="M90.667 26.667 136.001 0l45.333 26.667-45.333 26.666zM181.334 53.33l45.333-26.72L272 53.33 226.667 80zM136 240l-45.333-26.67v53.34zM0 193.33l45.333-26.72 45.334 26.72L45.333 220zM181.334 93.277 226.667 120l-45.333 26.67z"
-        ></path><path
-          fill="#2abc89"
-          d="m136 53.333 45.333-26.666v120L226.667 120V80L272 53.333V160l-90.667 53.333v240L136 480V306.667L45.334 360V220l45.333-26.667v73.334L136 240z"
-        ></path>
+        <path d="M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5"/>
+        <path d="M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z"/>
       </svg>
       <span class="text-xl font-bold sm:text-2xl">{siteConfig.title}</span>
     </a>
