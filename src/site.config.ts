@@ -16,7 +16,7 @@ export const siteConfig: SiteConfig = {
     },
   },
   // Used as the default description meta property and webmanifest description
-  description: "一个精心设计的 Astro 博客主题",
+  description: "蕉太狼的技术博客，分享前端开发经验、编程技巧与实战心得。",
   // HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
   lang: "zh-CN",
   // Meta property, found in src/components/BaseHead.astro L:42
