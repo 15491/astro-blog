@@ -110,7 +110,9 @@ xhr.onload = function () {
 
 ### 跨域携带 Cookie
 
-跨域请求默认不携带 Cookie，需将 `withCredentials` 设为 `true`，同时服务端响应头须包含 `Access-Control-Allow-Credentials: true`：
+:::important[客户端和服务端都需要配置]
+跨域请求默认不携带 Cookie，客户端设置 `withCredentials = true` 后，服务端响应头**也必须**包含 `Access-Control-Allow-Credentials: true`，且 `Access-Control-Allow-Origin` 不能为 `*`，必须指定具体域名，两者缺一不可。
+:::
 
 ```js
 xhr.withCredentials = true
@@ -201,7 +203,9 @@ fetch(url, {
 
 ### 响应处理
 
-`fetch` 只有在网络故障时才 reject，HTTP 错误（4xx/5xx）不会 reject，需手动判断 `res.ok`。
+:::warning[fetch 不会因 HTTP 错误而 reject]
+`fetch` 只有在网络故障（断网、DNS 失败）时才 reject，HTTP 错误（4xx/5xx）**不会** reject，Promise 照样 resolve。必须手动检查 `res.ok`，否则错误响应会被当成成功处理。
+:::
 
 ```js
 const res = await fetch('/api/data')
@@ -386,7 +390,9 @@ window.addEventListener('visibilitychange', () => {
 })
 ```
 
-> 推荐监听 `visibilitychange` 而非 `unload` / `beforeunload`，因为移动端的后台切换不一定触发 unload。
+:::tip[推荐监听 visibilitychange 而非 unload]
+`unload` / `beforeunload` 在移动端后台切换时不一定触发，`visibilitychange → hidden` 更可靠，覆盖了标签页切换、锁屏、返回桌面等场景。
+:::
 
 ### 限制
 

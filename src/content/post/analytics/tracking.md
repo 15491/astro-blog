@@ -152,7 +152,9 @@ export const getFingerprint = async (config: TrackerConfig) => {
 3. 上报给后端，后端查重后返回统一的 `visitorId`
 4. 后续所有模块都携带这个 `visitorId` 上报
 
-> 设备指纹并非 100% 稳定，换浏览器、清缓存、隐私模式都会改变。结合 Cookie/LocalStorage 存储可以提升识别率。
+:::caution[设备指纹并非 100% 稳定]
+换浏览器、清缓存、无痕模式、系统升级都可能导致指纹变化，同一用户会被识别成不同访客。生产环境建议结合 Cookie/LocalStorage 持久化 `visitorId`，登录后再与真实用户 ID 关联，而不是完全依赖指纹。
+:::
 
 ---
 
@@ -270,7 +272,7 @@ window.addEventListener('error', (e) => {
   }
   // 普通 JS 错误
   report(url, { visitorId, error: 'js', message: (e as ErrorEvent).message })
-}, true) // 必须用捕获阶段
+}, true) // 资源加载错误不冒泡，必须用捕获阶段（第三个参数 true）才能拦截到
 ```
 
 ---
@@ -378,7 +380,9 @@ export const reportPerformance = async (visitorId: string, config: TrackerConfig
 | INP | Interaction to Next Paint | 交互响应延迟 | < 200ms |
 | CLS | Cumulative Layout Shift | 累积布局偏移 | < 0.1 |
 
-> 选择在 `visibilitychange → hidden` 时上报，是因为 INP 和 CLS 是累积值，只有用户离开时才算最终结果。`{ once: true }` 确保只上报一次。
+:::note[为什么在 visibilitychange 时上报]
+INP 和 CLS 是累积值，页面使用过程中会持续变化，只有用户离开时才是最终结果。在此时上报能保证数据完整性。`{ once: true }` 确保监听器只触发一次，避免用户多次切换标签时重复上报。
+:::
 
 ---
 
