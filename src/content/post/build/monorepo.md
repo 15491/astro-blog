@@ -485,3 +485,65 @@ turbo run build --graph
 :::tip[开发时指向源码，构建时用产物]
 在 `tsconfig.json` 中用 `paths` 指向源码，类型检查和 IDE 跳转会直接定位到源文件。构建时 Vite/webpack 会走 `package.json` 的 `exports` 字段，使用编译后的产物。两者不冲突。
 :::
+
+---
+
+## 其他方案：Git Submodule 与 Git Subtree
+
+在 pnpm workspace 流行之前，Git 原生提供了两种多仓库管理方案。现在基本已被 Monorepo 工具链替代，但了解它们有助于理解问题的演进。
+
+### Git Submodule
+
+Submodule 在主仓库中嵌入另一个独立仓库的引用，各自保留独立的 git 历史。
+
+```bash
+# 添加子模块
+git submodule add https://github.com/org/shared-ui.git packages/ui
+
+# 克隆含子模块的仓库（需额外初始化）
+git clone https://github.com/org/my-project.git
+git submodule update --init --recursive
+
+# 更新子模块到最新提交
+git submodule update --remote
+```
+
+主仓库只记录子模块的**某一次 commit hash**，子模块本身的代码变更需要进入子模块目录单独提交再推送。
+
+:::caution[Submodule 使用体验较差]
+- clone 后忘记 `--recursive` 会导致子模块目录为空
+- 子模块更新后主仓库需要单独提交一次「更新子模块引用」
+- 跨模块的原子提交无法实现，多人协作时容易出现引用不同步
+:::
+
+### Git Subtree
+
+Subtree 将外部仓库的内容**直接合并进主仓库**，没有额外的引用文件。
+
+```bash
+# 添加子树
+git subtree add --prefix=packages/ui https://github.com/org/shared-ui.git main --squash
+
+# 拉取子树更新
+git subtree pull --prefix=packages/ui https://github.com/org/shared-ui.git main --squash
+
+# 将修改推回子树远端
+git subtree push --prefix=packages/ui https://github.com/org/shared-ui.git main
+```
+
+相比 Submodule，Subtree 对普通使用者更透明（clone 后直接可用，不需要额外初始化），但推回改动时命令比较繁琐。
+
+### 三种方案对比
+
+| | pnpm Workspace | Git Submodule | Git Subtree |
+| --- | --- | --- | --- |
+| 代码位置 | 同一仓库 | 独立仓库，主仓库存引用 | 代码合并进主仓库 |
+| clone 体验 | 直接可用 | 需要 `--recursive` | 直接可用 |
+| 原子提交 | ✓ | ✗ | ✓ |
+| 独立版本历史 | ✗ | ✓ | 部分保留 |
+| 工具链支持 | 丰富（Turborepo 等） | 原生 git | 原生 git |
+| 适用场景 | 关联性强的内部多包项目 | 引用不常变动的第三方库源码 | 需要偶尔同步的外部仓库 |
+
+:::note[现在还用 Submodule 的场景]
+Git Submodule 目前主要用于：嵌入不在 npm 上的第三方代码、游戏开发中引用资产仓库、需要严格锁定外部依赖到某一 commit 的场景。日常前端多包项目推荐直接用 pnpm workspace。
+:::
