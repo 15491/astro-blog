@@ -42,7 +42,7 @@ const postTemplate = `---
 title: ""
 description: ""
 publishDate: "${publishDate}"
-updatedDate: ""
+updatedDate: "${publishDate}"
 tags: []
 draft: false
 pinned: false
