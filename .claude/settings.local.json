@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install *)",
+      "Bash(pnpm view *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(pnpm --filter docs dev)"
+    ]
+  }
+}
