@@ -2,7 +2,7 @@
 title: "前端监控与错误上报"
 description: "从错误捕获、性能采集到行为埋点，系统梳理前端监控体系的建设方案：上报策略、采样率控制与自建 vs Sentry 的选型"
 publishDate: "2026-05-31T00:00:00.000Z"
-updatedDate: ""
+updatedDate: "2026-05-30T17:14:03.757Z"
 tags: ["监控", "错误上报", "性能", "Sentry", "工程实践"]
 draft: false
 pinned: false
@@ -390,7 +390,19 @@ Sentry.init({
 
 ---
 
-## 监控覆盖检查清单
+## 总结
+
+| 监控维度 | 捕获方式 | 上报时机 |
+|---------|---------|---------|
+| JS 运行时错误 | `window.onerror` + 框架 errorHandler | 立即上报 |
+| Promise 异常 | `unhandledrejection` | 立即上报 |
+| 资源加载失败 | 捕获阶段 `error` 事件 | 立即上报 |
+| Core Web Vitals | `web-vitals` 库 | 页面隐藏时上报 |
+| 接口耗时/错误 | 拦截 fetch / XHR | 批量上报 |
+| 页面访问 | 路由钩子 | 批量上报 |
+| 用户行为 | `data-track` 全局监听 | 批量上报 |
+
+## 上线前检查清单
 
 上线前确认以下监控点均已覆盖：
 

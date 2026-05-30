@@ -2,7 +2,7 @@
 title: "前端鉴权方案"
 description: "从 Cookie/Session、JWT 到 OAuth2/OIDC，系统梳理前端鉴权的核心方案、Token 无感刷新实现与路由级别的权限控制"
 publishDate: "2026-05-31T00:00:00.000Z"
-updatedDate: ""
+updatedDate: "2026-05-30T17:14:03.757Z"
 tags: ["鉴权", "JWT", "OAuth2", "Cookie", "安全"]
 draft: false
 pinned: false
@@ -68,7 +68,7 @@ axios.interceptors.response.use(
 
 - 同域单体应用（前后端同域）
 - 对安全要求高的系统（银行、政务）
-- 不需要跨域访问 API 的场景
+- 前后端部署在同域，不涉及跨域请求的场景
 
 ---
 
@@ -339,12 +339,12 @@ export const vPermission: Directive<HTMLElement, string> = {
 
 ---
 
-## 方案对比
+## 六、方案对比
 
 | 维度 | Cookie/Session | JWT | OAuth2/OIDC |
 |------|---------------|-----|-------------|
 | 状态管理 | 服务端有状态 | 无状态 | 无状态 |
 | 跨域支持 | 较差（需 CORS + withCredentials） | 好（Header 携带） | 好 |
-| Token 撤销 | 直接删 Session | 需要黑名单或短有效期 | 通过授权服务器撤销 |
+| Token 撤销 | 直接删 Session，即时生效 | 需要黑名单机制（短有效期只能缩小窗口） | 通过授权服务器撤销 |
 | 适合场景 | 同域单体应用 | 前后端分离、移动端 | 第三方登录、多服务共享认证 |
 | 安全重点 | SameSite + HttpOnly | 存储位置 + 短有效期 | PKCE + state 防 CSRF |

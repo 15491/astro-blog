@@ -2,7 +2,7 @@
 title: "CSS 架构与设计系统"
 description: "从 BEM 命名、CSS Modules 到原子化 CSS，系统梳理前端样式的架构方案选型、CSS 自定义属性 token 体系设计与响应式布局策略"
 publishDate: "2026-05-31T00:00:00.000Z"
-updatedDate: ""
+updatedDate: "2026-05-30T17:14:03.757Z"
 tags: ["CSS", "设计系统", "BEM", "Tailwind", "工程实践"]
 draft: false
 pinned: false
@@ -291,21 +291,43 @@ function toggleTheme() {
 用 CSS 变量管理断点，避免魔法数字：
 
 ```css
-/* ❌ 断点值散落各处 */
-@media (min-width: 768px) { ... }
-@media (min-width: 768px) { ... }  /* 重复，改一处漏改另一处 */
+/* ❌ 断点值魔法数字散落在各个组件文件里，有一处不小心写成 750px，行为不一致 */
+/* Button.css */
+@media (min-width: 768px) { .button { font-size: 16px; } }
 
-/* ✅ 在 JS 里管理断点，配合 CSS 使用 */
+/* Card.css */
+@media (min-width: 750px) { .card { flex-direction: row; } }  /* 写错了 */
+
+/* Header.css */
+@media (min-width: 768px) { .header { height: 64px; } }
 ```
 
-```ts
-// 在 JS 里定义断点常量
-const BREAKPOINTS = {
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
+在 Tailwind 项目里用配置统一管理断点，保证全局一致：
+
+```ts title="tailwind.config.ts"
+// ✅ 断点集中定义，所有组件共享同一份配置
+export default {
+  theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
+  },
 }
+```
+
+非 Tailwind 项目可以在 SCSS 里统一管理：
+
+```scss title="src/styles/breakpoints.scss"
+// ✅ 变量集中定义
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+// 用变量，改一处生效全局
+@media (min-width: $bp-md) { .card { flex-direction: row; } }
+@media (min-width: $bp-md) { .button { font-size: 16px; } }
 ```
 
 ### 容器查询（现代方案）
@@ -334,7 +356,11 @@ const BREAKPOINTS = {
 }
 ```
 
-容器查询的优势：同一个组件放在侧边栏（窄）和主内容区（宽）会自动适配，不需要传 props。
+容器查询的优势在于**组件真正自适应**：同一个 `<Card>` 组件，放在 240px 宽的侧边栏时竖向排列，放在 800px 宽的主内容区时横向排列，不需要父组件传 `layout` prop，也不依赖视口宽度。
+
+:::note[浏览器兼容性]
+容器查询在 Chrome 105+、Firefox 110+、Safari 16+ 中受支持，覆盖绝大多数现代浏览器。如需兼容旧版本，降级方案是继续用媒体查询，或通过 JS 检测宽度后动态加 class。
+:::
 
 ---
 
@@ -349,3 +375,4 @@ const BREAKPOINTS = {
 | 主题切换 | CSS 变量 | CSS 变量 | props | CSS 变量 |
 | 适合项目规模 | 中小 | 中大 | 中大 | 任意 |
 | 适合团队 | 纯 CSS 团队 | Vue/React 团队 | React 团队 | 任意 |
+| 浏览器兼容 | 全兼容 | 全兼容 | 全兼容 | 全兼容 |
