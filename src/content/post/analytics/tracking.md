@@ -2,7 +2,7 @@
 title: "埋点 SDK 设计与实现"
 description: "从零实现一个前端埋点 SDK，涵盖访客识别、事件采集、错误监控、PV 上报、性能指标采集与数据上报策略"
 publishDate: "2026-05-13T21:13:11.662Z"
-updatedDate: ""
+updatedDate: "2026-09-07T21:12:00.303Z"
 tags: ["埋点", "监控", "sendBeacon", "web-vitals", "性能"]
 draft: false
 pinned: false
@@ -11,7 +11,6 @@ coverImage:
   src: ""
   alt: ""
 ---
-
 # 埋点 SDK 设计与实现
 
 埋点（Event Tracking）是数据采集的基础，用于记录用户行为、页面访问、异常错误、性能指标等数据，为产品迭代和线上监控提供依据。
@@ -76,7 +75,7 @@ export class Tracker {
 
 - **Promise 单例**：`initPromise` 保证 `init()` 只执行一次，即使被多次调用
 - **异步初始化**：访客 ID 依赖网络请求，其他模块等 ID 生成后再启动
-- **`setUserId`**：用户登录后调用，将匿名访客与真实用户关联
+- `**setUserId**`：用户登录后调用，将匿名访客与真实用户关联
 
 ### 配置结构
 
@@ -147,6 +146,7 @@ export const getFingerprint = async (config: TrackerConfig) => {
 ```
 
 流程：
+
 1. `FingerprintJS` 生成设备指纹 `anonymousId`
 2. `ua-parser-js` 解析浏览器、系统、设备类型
 3. 上报给后端，后端查重后返回统一的 `visitorId`
@@ -250,10 +250,12 @@ export const reportError = (visitorId: string, config: TrackerConfig) => {
 
 两个事件覆盖了前端绝大多数错误场景：
 
-| 事件 | 捕获范围 |
-| --- | --- |
-| `window.error` | 同步错误、资源加载错误（img/script 等） |
+
+| 事件                   | 捕获范围                                       |
+| -------------------- | ------------------------------------------ |
+| `window.error`       | 同步错误、资源加载错误（img/script 等）                  |
 | `unhandledrejection` | `async/await` 未 catch 的错误、`Promise.reject` |
+
 
 **扩展思路：资源加载错误**
 
@@ -321,13 +323,15 @@ export const reportPv = (visitorId: string, config: TrackerConfig) => {
 
 覆盖的路由场景：
 
-| 场景 | 处理方式 |
-| --- | --- |
-| Hash 路由切换 | `hashchange` |
-| 浏览器前进 / 后退 | `popstate` |
-| `router.push` | 重写 `history.pushState` |
+
+| 场景               | 处理方式                      |
+| ---------------- | ------------------------- |
+| Hash 路由切换        | `hashchange`              |
+| 浏览器前进 / 后退       | `popstate`                |
+| `router.push`    | 重写 `history.pushState`    |
 | `router.replace` | 重写 `history.replaceState` |
-| 首次进入 | 直接调用一次 |
+| 首次进入             | 直接调用一次                    |
+
 
 ---
 
@@ -372,13 +376,15 @@ export const reportPerformance = async (visitorId: string, config: TrackerConfig
 
 各指标说明：
 
-| 指标 | 全称 | 含义 | 良好阈值 |
-| --- | --- | --- | --- |
-| FP | First Paint | 首次像素绘制 | < 1s |
-| FCP | First Contentful Paint | 首次内容绘制 | < 1.8s |
-| LCP | Largest Contentful Paint | 最大内容绘制 | < 2.5s |
-| INP | Interaction to Next Paint | 交互响应延迟 | < 200ms |
-| CLS | Cumulative Layout Shift | 累积布局偏移 | < 0.1 |
+
+| 指标  | 全称                        | 含义     | 良好阈值       |
+| --- | ------------------------- | ------ | ---------- |
+| FP  | First Paint               | 首次像素绘制 | &lt; 1s    |
+| FCP | First Contentful Paint    | 首次内容绘制 | &lt; 1.8s  |
+| LCP | Largest Contentful Paint  | 最大内容绘制 | &lt; 2.5s  |
+| INP | Interaction to Next Paint | 交互响应延迟 | &lt; 200ms |
+| CLS | Cumulative Layout Shift   | 累积布局偏移 | &lt; 0.1   |
+
 
 :::note[为什么在 visibilitychange 时上报]
 INP 和 CLS 是累积值，页面使用过程中会持续变化，只有用户离开时才是最终结果。在此时上报能保证数据完整性。`{ once: true }` 确保监听器只触发一次，避免用户多次切换标签时重复上报。
@@ -411,15 +417,18 @@ export const reportFetch = async (url: string, body: any) => {
 
 两种上报方式对比：
 
-| | `sendBeacon` | `fetch + keepalive` |
-| --- | --- | --- |
-| 是否阻塞 | 否 | 否（keepalive） |
-| 页面卸载时 | 可靠发出 | 可靠发出 |
-| 能否获取响应 | 否 | 是 |
-| 数据大小限制 | 64KB | 较大 |
-| 适用场景 | 埋点、日志、性能上报 | 需要后端返回值（如 UV） |
+
+|        | `sendBeacon` | `fetch + keepalive` |
+| ------ | ------------ | ------------------- |
+| 是否阻塞   | 否            | 否（keepalive）        |
+| 页面卸载时  | 可靠发出         | 可靠发出                |
+| 能否获取响应 | 否            | 是                   |
+| 数据大小限制 | 64KB         | 较大                  |
+| 适用场景   | 埋点、日志、性能上报   | 需要后端返回值（如 UV）       |
+
 
 SDK 内部的使用原则：
+
 - UV 初始化用 `reportFetch`，因为需要拿到后端返回的 `visitorId`
 - 其余所有上报用 `report`（sendBeacon），保证轻量不阻塞
 
@@ -451,16 +460,20 @@ build: {
 当前 SDK 已覆盖核心场景，以下是可以继续完善的方向：
 
 **采集增强**
+
 - 自定义属性标记（`data-track`），替代硬编码标签名
 - 资源加载错误监控（图片、脚本、字体）
 - 页面停留时长统计
 - 曝光埋点（IntersectionObserver 监听元素进入视口）
 
 **上报优化**
+
 - 本地队列 + 批量上报，减少请求次数
 - 失败重试（IndexedDB 持久化待发队列）
 - 采样率控制，高流量下按比例上报
 
 **访客识别增强**
+
 - LocalStorage / Cookie 持久化 visitorId，避免重复请求
 - 结合指纹与存储的混合方案提升稳定性
+
